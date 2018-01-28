@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { Constants } from 'expo';
 import { CheckBox } from 'react-native-elements'; // 0.16.0
 
@@ -13,22 +13,28 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <CheckBox
-          title="Press me"
-          checked={this.state.checked}
-          onPress={() => this.setState({ checked: !this.state.checked })}
-        />
+        <ScrollView style={styles.scrollView}>
+            <CheckBox
+              title="Press me"
+              checked={this.state.checked}
+              onPress={() => this.setState({ checked: !this.state.checked })}
+              style={styles.todoItem}
+            />
+        </ScrollView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Constants.statusBarHeight,
-    backgroundColor: '#ecf0f1',
-  },
+    container: {
+        flex: 1,
+        paddingTop: Constants.statusBarHeight,
+    },
+    todoItem: {
+        flex: 1,
+    },
+    scrollView: {
+        flex: 1,
+    }
 });
