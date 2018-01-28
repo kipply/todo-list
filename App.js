@@ -1,16 +1,23 @@
 import React, { Component } from 'react';
-import { Platform, KeyboardAvoidingView, View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
+import { FlatList, Platform, KeyboardAvoidingView, View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
 import { Constants } from 'expo';
 import { CheckBox } from 'react-native-elements'; // 0.16.0
 
 import '@expo/vector-icons'; // 5.2.0
 
 export default class App extends Component {
-  constructor(){
+  constructor(props){
+    super(props);
     this.state = {
-        checked: false,
-        items: []
+        items: [
+            {"content": "first item", "checked": true},
+            {"content": "second item", "checked": false},
+        ]
     };
+  }
+
+  clickCheck(id){
+      // process clicking an item based on it's eventual firebase id. 
   }
 
 
@@ -19,11 +26,16 @@ export default class App extends Component {
       <View style={styles.container}>
         <Text style={styles.title}>Todo List</Text>
         <ScrollView style={styles.scrollView}>
-            <CheckBox
-              title="Press me"
-              checked={this.state.checked}
-              onPress={() => this.setState({ checked: !this.state.checked })}
-              style={styles.todoItem}
+            <FlatList
+                data={this.state.items}
+                renderItem={({item}) => (
+                    <CheckBox
+                      title={item.content}
+                      checked={item.checked}
+                      onPress={this.clickCheck(item.content)}
+                      style={styles.todoItem}
+                    />
+                )}
             />
         </ScrollView>
         <KeyboardAvoidingView behavior="padding" style={styles.todoInput}>
