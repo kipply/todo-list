@@ -1,11 +1,23 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Constants } from 'expo';
+import { CheckBox } from 'react-native-elements'; // 0.16.0
 
-export default class App extends React.Component {
+import '@expo/vector-icons'; // 5.2.0
+
+export default class App extends Component {
+  state = {
+    checked: false,
+  };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+        <CheckBox
+          title="Press me"
+          checked={this.state.checked}
+          onPress={() => this.setState({ checked: !this.state.checked })}
+        />
       </View>
     );
   }
@@ -14,8 +26,9 @@ export default class App extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: Constants.statusBarHeight,
+    backgroundColor: '#ecf0f1',
   },
 });
