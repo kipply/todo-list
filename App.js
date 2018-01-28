@@ -10,14 +10,14 @@ export default class App extends Component {
     super(props);
     this.state = {
         items: [
-            {"content": "first item", "checked": true},
-            {"content": "second item", "checked": false},
+            {"content": "first item", "checked": true, "key": 'smth'},
+            {"content": "second item", "checked": false, "key": 'smthelse'},
         ]
     };
   }
 
   clickCheck(id){
-      // process clicking an item based on it's eventual firebase id. 
+      // process clicking an item based on it's eventual firebase id.
   }
 
 
