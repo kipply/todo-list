@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Text } from 'react-native';
+import { Platform, KeyboardAvoidingView, View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
 import { Constants } from 'expo';
 import { CheckBox } from 'react-native-elements'; // 0.16.0
 
@@ -22,24 +22,40 @@ export default class App extends Component {
               style={styles.todoItem}
             />
         </ScrollView>
+        <KeyboardAvoidingView behavior="padding" style={styles.todoInput}>
+            <TextInput
+              style={{height: 40}}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
+            />
+        </KeyboardAvoidingView>
       </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'space-between',
+        paddingTop: Constants.statusBarHeight,
+    },
     title: {
         fontSize: 50,
         textAlign: 'center',
     },
-    container: {
-        flex: 1,
-        paddingTop: Constants.statusBarHeight,
-    },
     todoItem: {
-        flex: 1,
     },
     scrollView: {
-        flex: 1,
-    }
+    },
+    todoInput: {
+        padding: 5,
+    },
+    todoInput: Platform.select({
+      ios: {
+        borderColor: 'gray',
+        borderWidth: 1,
+        marginBottom: 20,
+      }
+    }),
 });
