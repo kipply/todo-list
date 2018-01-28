@@ -6,9 +6,13 @@ import { CheckBox } from 'react-native-elements'; // 0.16.0
 import '@expo/vector-icons'; // 5.2.0
 
 export default class App extends Component {
-  state = {
-    checked: false,
-  };
+  constructor(){
+    this.state = {
+        checked: false,
+        items: []
+    };
+  }
+
 
   render() {
     return (
