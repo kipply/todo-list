@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Text } from 'react-native';
 import { Constants } from 'expo';
 import { CheckBox } from 'react-native-elements'; // 0.16.0
 
@@ -13,6 +13,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <Text style={styles.title}>Todo List</Text>
         <ScrollView style={styles.scrollView}>
             <CheckBox
               title="Press me"
@@ -27,6 +28,10 @@ export default class App extends Component {
 }
 
 const styles = StyleSheet.create({
+    title: {
+        fontSize: 50,
+        textAlign: 'center',
+    },
     container: {
         flex: 1,
         paddingTop: Constants.statusBarHeight,
