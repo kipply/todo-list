@@ -2,12 +2,21 @@ import React, { Component } from 'react';
 import { Button, FlatList, Platform, KeyboardAvoidingView, View, StyleSheet, ScrollView, Text, TextInput } from 'react-native';
 import { Constants } from 'expo';
 import { CheckBox } from 'react-native-elements'; // 0.16.0
+import firebase from 'firebase';
 
 import '@expo/vector-icons'; // 5.2.0
 
 export default class App extends Component {
   constructor(props){
     super(props);
+    firebase.initializeApp({
+        apiKey: "AIzaSyB45E3KbffIVARyuoxcyySd-e6SM3XjmX4",
+        authDomain: "hthh-d3373.firebaseapp.com",
+        databaseURL: "https://hthh-d3373.firebaseio.com",
+        projectId: "hthh-d3373",
+        storageBucket: "hthh-d3373.appspot.com",
+        messagingSenderId: "672760761784"
+    });
     this.state = {
         items: [
             {"content": "first item", "checked": true, "key": 'smth'},
@@ -15,6 +24,14 @@ export default class App extends Component {
         ],
         inputText: '',
     };
+  }
+  componentDidMount() {
+    this.listenForItems(firebase.database().ref('/tasks'));
+  }
+
+  listenForItems(itemsRef) {
+    itemsRef.on('value', (snap) => {
+    });
   }
 
   clickCheck(id){
@@ -24,7 +41,10 @@ export default class App extends Component {
 
   addItem(content){
       console.log("tried to add item with content: " + content);
-      // process clicking an item based on it's eventual firebase id.
+          var newTaskKey = firebase.database().ref('/tasks').push().key;
+          var updates = {};
+          updates['/tasks/' + newTaskKey] = {"content": content, "checked": false};
+          return firebase.database().ref().update(updates);
   }
 
 
