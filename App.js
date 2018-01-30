@@ -18,10 +18,7 @@ export default class App extends Component {
         messagingSenderId: "672760761784"
     });
     this.state = {
-        items: [
-            {"content": "first item", "checked": true, "key": 'smth'},
-            {"content": "second item", "checked": false, "key": 'smthelse'},
-        ],
+        items: [],
         inputText: '',
     };
   }
@@ -32,6 +29,9 @@ export default class App extends Component {
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
         var data = snap.val();
+        if (!data){
+            return
+        }
         var keys = Object.keys(data);
         var newItems = [];
         keys.forEach(key => {
@@ -40,24 +40,25 @@ export default class App extends Component {
                 "checked": data[key].checked,
                 "key": key
             });
-            console.log(key)
         });
         this.setState({"items": newItems});
     });
   }
 
-  clickCheck(id){
-      console.log("clicked");
+  clickCheck(key){
+      var taskRef = firebase.database().ref('tasks/' + key);
+      taskRef.once('value', snap => {
+          var data = snap.val();
+          data.checked = !data.checked;
+          taskRef.update(data);
+      })
       // process clicking an item based on it's eventual firebase id.
   }
 
   addItem(content){
       this.setState({inputText: ''});
       if (content){
-          var newTaskKey = firebase.database().ref('/tasks').push().key;
-          var updates = {};
-          updates['/tasks/' + newTaskKey] = {"content": content, "checked": false};
-          firebase.database().ref().update(updates);
+          firebase.database().ref('/tasks').push({"content": content, "checked": false});
       }
   }
 
@@ -73,7 +74,7 @@ export default class App extends Component {
                     <CheckBox
                       title={item.content}
                       checked={item.checked}
-                      onPress={this.clickCheck(item.content)}
+                      onPress={() => this.clickCheck(item.key)}
                       style={styles.todoItem}
                     />
                 )}
