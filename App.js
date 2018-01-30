@@ -40,11 +40,13 @@ export default class App extends Component {
   }
 
   addItem(content){
-      console.log("tried to add item with content: " + content);
+      this.setState({inputText: ''});
+      if (content){
           var newTaskKey = firebase.database().ref('/tasks').push().key;
           var updates = {};
           updates['/tasks/' + newTaskKey] = {"content": content, "checked": false};
-          return firebase.database().ref().update(updates);
+          firebase.database().ref().update(updates);
+      }
   }
 
 
