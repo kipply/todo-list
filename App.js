@@ -31,6 +31,18 @@ export default class App extends Component {
 
   listenForItems(itemsRef) {
     itemsRef.on('value', (snap) => {
+        var data = snap.val();
+        var keys = Object.keys(data);
+        var newItems = [];
+        keys.forEach(key => {
+            newItems.push({
+                "content": data[key].content,
+                "checked": data[key].checked,
+                "key": key
+            });
+            console.log(key)
+        });
+        this.setState({"items": newItems});
     });
   }
 
